@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <title>Login/Register</title>
+
+    <style>
+        .login--wrapper{
+            display: flex;
+            height: 80vh;
+            align-items: center;
+            justify-content: center;
+        }
+        .form{
+            width: 500px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                <strong>Message: </strong> {{message}}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+        {% endfor %}  
+        <div class="login--wrapper">
+            {% if page == 'login' %}
+            <form method="post" class="form">
+                {% csrf_token %}
+                <h1>Login</h1>
+                <h4>Login to view photos</h4>
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Username</label>
+                  <input type="text" name="username" class="form-control" autocomplete="off" required id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Username">
+                </div>
+                <div class="mb-3">
+                  <label for="exampleInputPassword1">Password</label>
+                  <input type="password" name="pass" class="form-control" required id="exampleInputPassword1" placeholder="Password">
+                </div>
+                <button type="submit" class="btn btn-primary mt-3" >Submit</button>
+                <div style="display:flex;justify-content: space-between;">
+                    <p >Don't have an account <a href="{% url 'register' %}">Register</a></p>
+                    <p><a href="{% url 'reset_password' %}">Forget password?</a></p>
+                </div>
+
+            </form>
+            {% else %}
+            <form action="" method="post" class="form">
+                {% csrf_token %}
+                <h1>Register</h1>
+                {% for field in form %}
+                <div class="mb-3">
+                    <label>{{field.label}}</label>
+                    {{field}}
+                {% endfor %}
+            </div>
+                <button type="submit" class="btn btn-primary mt-3">Submit</button>
+                <p>Already have an account <a href="{% url 'login' %}">Login</a></p>
+            </form>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

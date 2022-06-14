@@ -1,0 +1,58 @@
+{% extends 'photos/main.html' %}
+{% block content %}
+    <style>
+        .helo{
+        margin: auto;
+     width: 65%;
+     height: 60vh;
+  border: 3px solid white;
+  padding: 10px;
+  text-align: center;
+    }
+    .he{
+        width: 70vw;
+        margin: auto;
+        text-align: center;
+    }
+    </style>
+        
+        {% if c %}
+        <div class="he">
+            <h1>Delete confirmation</h1>
+            <p>Are you sure you want to delete all images of {{p}} categories</p>
+            <a href="{% url 'gallery' %}">
+                <button type="submit" class="btn btn-primary mt-3">Go Back</button></a>
+            <a href="{% url 'con_del_cat' c.id %}">
+                <button type="submit" class="btn btn-primary mt-3">Delete</button></a>
+        <br>
+        <div class="col-md-12" style="margin-top: 3vh;">
+                <div class="row">
+                    
+                    {% for photo in cat %}
+                    <div class="col-md-3">
+                        <div class="card my-2">
+                            <img class="image-thumbnail" style="height: 30vh; object-fit: cover;" src="{{photo.image.url}}" alt="Card image cap">
+                            <div class="card-body">
+                              <small>Category: {{photo.category.name}}</small>
+                            </div>
+                            <a class="btn btn-outline-dark btn-sm m-1" href="{% url 'view' photo.id %}">View</a>
+                          </div>
+                    </div>
+                    {% empty %}
+                    <h3>No Photos...</h3>
+                    {% endfor %}
+
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <div class="helo">
+            <h1>Delete confirmation</h1>
+        <br>
+        <img style="max-width: 40%; max-height:40%; " src="{{photo.image.url}}">
+        <p>Are you sure you want to delete this image</p>
+        <a href="{% url 'delet' photo.id %}">
+        <button type="submit" class="btn btn-primary mt-3">Delete</button></a>
+        </div>
+        {% endif %}
+{% endblock content %}
